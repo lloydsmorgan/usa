@@ -5,10 +5,39 @@
     <title>RUTLAND POS</title>
     <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
     <meta name="theme-color" content="#1a237e">
-    <link rel="icon" href="{{ url_for('static', filename='logo.jpg') }}">
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .logout-footer {
+            margin-top: 40px;
+            text-align: left;
+        }
+
+        .logout-footer button {
+            padding: 10px 20px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <h1>RUTLAND POS Terminal</h1>
+
+        {% block content %}{% endblock %}
+    </div>
+
+    {% if session.logged_in %}
+    <div class="logout-footer">
+        <a href="{{ url_for('logout') }}">
+            <button>Logout</button>
+        </a>
+    </div>
+    {% endif %}
+
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/static/service-worker.js')
@@ -16,16 +45,6 @@
                 .catch(err => console.error("❌ Service Worker failed:", err));
         }
     </script>
-
-    <div class="container">
-        <h1>RUTLAND POS Terminal</h1>
-
-        {% if session.logged_in and request.endpoint not in ['login', 'change_password'] %}
-            <div style="text-align: right;"><a href="{{ url_for('logout') }}">Logout</a></div>
-        {% endif %}
-
-        {% block content %}{% endblock %}
-    </div>
 </body>
 </html>
 
