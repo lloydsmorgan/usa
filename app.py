@@ -8,7 +8,7 @@ app.secret_key = 'fds_secret_key_8583'
 logging.basicConfig(level=logging.INFO)
 
 # Configuration
-USERNAME = "fdsadmin"
+USERNAME = "rutlandadmin"
 PASSWORD_FILE = "password.json"
 
 # Ensure password file exists
