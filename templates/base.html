@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FDS Secure POS</title>
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.json') }}">
+    <meta name="theme-color" content="#1a237e">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon-192.png') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/static/service-worker.js')
+                .then(reg => console.log("✅ Service Worker Registered", reg))
+                .catch(err => console.error("❌ Service Worker failed:", err));
+        }
+    </script>
+
+    <div class="container">
+        <h1>FDS Secure POS Terminal</h1>
+
+        {% if session.logged_in and request.endpoint not in ['login', 'change_password'] %}
+            <div style="text-align: right;"><a href="{{ url_for('logout') }}">Logout</a></div>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
+
