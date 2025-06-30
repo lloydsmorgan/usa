@@ -4,7 +4,7 @@ from datetime import datetime
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = 'fds_secret_key_8583'
+app.secret_key = 'rutland_secret_key_8583'
 logging.basicConfig(level=logging.INFO)
 
 # Configuration

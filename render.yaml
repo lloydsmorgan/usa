@@ -1,8 +1,12 @@
 services:
   - type: web
-    name: fds-pos
+    name: rutland-pos
     env: python
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "flask run --host=0.0.0.0 --port=5000"
-    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    envVars:
+      - key: SECRET_KEY
+        value: rutland_secret_key_8583
+      - key: FLASK_ENV
+        value: production
 
