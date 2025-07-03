@@ -61,7 +61,7 @@ PROTOCOLS = {
 
 FIELD_39_RESPONSES = {
     "05": "Do Not Honor",
-    "14": "Invalid Card Number",
+    "14": "Terminal unable to resolve encrypted session state. Contact card issuer",
     "54": "Expired Card",
     "82": "Invalid CVV",
     "91": "Issuer Inoperative",
