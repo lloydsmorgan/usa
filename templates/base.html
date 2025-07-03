@@ -7,43 +7,34 @@
     <meta name="theme-color" content="#1a237e">
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}" type="image/x-icon">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <style>
-        .logout-footer {
-            margin-top: 40px;
-            text-align: left;
-        }
-
-        .logout-footer button {
-            padding: 10px 20px;
-            background-color: red;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-    </style>
 </head>
 <body>
     <div class="container">
         <h1>RUTLAND POS Terminal</h1>
 
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <div class="flash">
+              {% for msg in messages %}
+                <p>{{ msg }}</p>
+              {% endfor %}
+            </div>
+          {% endif %}
+        {% endwith %}
+
         {% block content %}{% endblock %}
     </div>
 
     {% if session.logged_in %}
-    <div style="text-align: center; margin-top: 30px;">
+    <div class="fixed-bottom-center">
         <a href="{{ url_for('change_password') }}">
-            <button style="padding: 6px 14px; background-color: #1a237e; color: white; border: none; border-radius: 4px;">
-                Change Password
-            </button>
+            <button>Change Password</button>
         </a>
         <a href="{{ url_for('logout') }}">
-            <button style="padding: 6px 14px; background-color: red; color: white; border: none; border-radius: 4px; margin-left: 10px;">
-                Logout
-            </button>
+            <button style="margin-left: 10px; background-color: red;">Logout</button>
         </a>
     </div>
-{% endif %}
+    {% endif %}
 
     <script>
         if ('serviceWorker' in navigator) {

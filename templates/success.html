@@ -1,11 +1,20 @@
 {% extends "base.html" %}
-{% block content %}
-<h2>Transaction Approved </h2>
-<p>Transaction ID: {{ txn_id }}</p>
-<p>Card ending in: **** **** **** {{ pan }}</p>
-<p> We have sent a copy of receipt to your merchant email. Please check your merchant email inbox.</p>
-<a href="{{ url_for('receipt') }}" class="btn"><button>View Receipt<button></a>
-<a href="{{ url_for('home') }}" class="btn"><button>New Transaction<button></a>
 
+{% block content %}
+<div class="success-container">
+    <h2 style="color: #0f0;">✅ Transaction Approved</h2>
+    <p><strong>Transaction ID:</strong> {{ txn_id }}</p>
+    <p><strong>Card ending in:</strong> **** **** **** {{ pan }}</p>
+    <p>📧 A copy of the receipt has been sent to your merchant email.</p>
+
+    <div class="button-group">
+        <a href="{{ url_for('receipt') }}">
+            <button>🧾 View Receipt</button>
+        </a>
+        <a href="{{ url_for('home') }}">
+            <button style="margin-left: 10px;">🔁 New Transaction</button>
+        </a>
+    </div>
+</div>
 {% endblock %}
 
