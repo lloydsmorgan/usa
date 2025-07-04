@@ -1,4 +1,8 @@
-/* ========== Base Layout ========== */
+/* ================================
+   RUTLAND POS - Global Styling
+   ================================ */
+
+/* Base Layout */
 body {
     font-family: 'Courier New', Courier, monospace;
     background-color: #111;
@@ -12,7 +16,7 @@ body {
     flex-direction: column;
 }
 
-/* ========== Container Styling ========== */
+/* Container Styling */
 .container {
     background-color: #000;
     border: 1px solid #0f0;
@@ -24,13 +28,17 @@ body {
     text-align: center;
 }
 
-/* ========== Headings ========== */
+.container > * {
+    margin-bottom: 1rem;
+}
+
+/* Headers */
 h1, h2, h3 {
     color: #00ff88;
     margin-bottom: 1rem;
 }
 
-/* ========== Inputs and Buttons ========== */
+/* Input Fields */
 input, select {
     width: 100%;
     margin: 0.5rem 0;
@@ -43,6 +51,7 @@ input, select {
     box-sizing: border-box;
 }
 
+/* Buttons */
 button, .btn {
     margin: 0.5rem 0;
     padding: 10px 20px;
@@ -54,13 +63,14 @@ button, .btn {
     font-weight: bold;
     transition: background-color 0.3s ease;
     font-size: 1rem;
+    text-decoration: none;
 }
 
 button:hover, .btn:hover {
     background-color: #3949ab;
 }
 
-/* ========== Error / Flash / Notes ========== */
+/* Errors & Flash Notices */
 .error-code {
     color: #ff4444;
     font-weight: bold;
@@ -81,6 +91,16 @@ button:hover, .btn:hover {
     margin-bottom: 1rem;
 }
 
+/* Footer Buttons */
+.fixed-bottom-center {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 99;
+}
+
+/* Success Page */
 .success-container {
     text-align: center;
     margin-top: 2rem;
@@ -94,6 +114,7 @@ button:hover, .btn:hover {
     box-shadow: 0 0 10px #0f0;
 }
 
+/* Button Group */
 .button-group {
     margin-top: 1.5rem;
 }
@@ -112,30 +133,142 @@ button:hover, .btn:hover {
     background-color: #3949ab;
 }
 
+/* Login Page */
+.login-container {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 2rem;
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0,255,0,0.15);
+    text-align: center;
+}
 
-/* ========== Receipt Styling ========== */
+.login-logo {
+    display: block;
+    margin: 0 auto 20px auto;
+    max-width: 120px;
+    height: auto;
+    border-radius: 8px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0 20px 0;
+    background-color: #111;
+    color: #0f0;
+    border: 1px solid #555;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+button[type="submit"] {
+    background-color: #1a237e;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    border: none;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+button[type="submit"]:hover {
+    background-color: #3949ab;
+}
+
+/* Receipt Section */
 .receipt {
-    background-color: #000;
+    background-color: #fff;
+    color: #000;
+    font-family: 'Courier New', monospace;
     padding: 1rem;
-    border: 1px dashed #0f0;
+    border: 1px dashed #000;
     margin-top: 1rem;
     text-align: left;
     font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-/* ========== Responsive Footer Button ========== */
-.fixed-bottom-center {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 99;
+.receipt > * {
+    margin-bottom: 0.5rem;
 }
 
-/* ========== Media Queries ========== */
+.receipt h3 {
+    color: #000;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.signature-line {
+    margin-top: 2rem;
+    border-top: 1px dashed #000;
+    width: 100%;
+    height: 30px;
+}
+
+.signature-note {
+    font-style: italic;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #000;
+    text-align: center;
+}
+
+/* Print Optimizations */
+@media print {
+    body {
+        background: white !important;
+        color: black !important;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+    }
+
+    .container,
+    .success-container,
+    .receipt {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+        border: none;
+    }
+
+    .btn, .button-group, .fixed-bottom-center, .logout-footer {
+        display: none !important;
+    }
+
+    .receipt {
+        border: none;
+        padding-top: 10px;
+    }
+
+    .receipt img {
+        max-width: 100px;
+        display: block;
+        margin: 0 auto 10px auto;
+    }
+}
+
+/* Small Screen Optimization */
 @media (max-width: 600px) {
-    .container {
+    html, body {
+        padding: 0;
+        margin: 0;
+        font-size: 15px;
+        width: 100vw;
+        overflow-x: hidden;
+    }
+
+    .container,
+    .success-container,
+    .receipt {
+        width: 95vw;
         padding: 1rem;
+        margin: auto;
     }
 
     input, button {
