@@ -2,154 +2,155 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Rutland POS</title>
+  <title>Receipt</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
     body {
-      background: #f5f5f5;
+      background: #fff;
+      color: #000;
       font-family: 'Courier New', monospace;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
+      padding: 30px 10px;
     }
 
     .receipt-container {
-      width: 420px;
-      background: white;
-      padding: 10px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      max-width: 380px;
+      margin: auto;
     }
 
     .receipt {
       border: 1px dashed #000;
-      padding: 15px;
-      margin-bottom: 20px;
+      padding: 20px;
+      margin-bottom: 50px;
+      background: white;
     }
 
-    .center {
+    .receipt h2 {
       text-align: center;
+      margin-bottom: 15px;
+      text-transform: uppercase;
     }
 
-    .logo {
-      width: 80px;
-      margin: 0 auto 10px;
+    .receipt-logo {
+      display: block;
+      margin: 0 auto 10px auto;
+      width: 100px;
+      height: auto;
     }
 
-    .divider {
-      border-top: 1px dashed black;
-      margin: 10px 0;
+    .receipt p {
+      margin: 5px 0;
     }
 
-    .field {
-      display: flex;
-      justify-content: space-between;
+    .signature-line {
+      margin-top: 40px;
+      border-top: 1px solid #000;
+      text-align: center;
+      padding-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      font-size: 0.8rem;
+      text-align: center;
+      font-style: italic;
+      line-height: 1.3;
     }
 
     .copy-label {
+      text-align: center;
       font-weight: bold;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
+    .btn-group {
       text-align: center;
-      margin-bottom: 8px;
-      font-size: 0.95em;
-      border-bottom: 1px solid #000;
-      padding-bottom: 5px;
+      margin-top: 20px;
     }
 
-    .qr {
-      width: 100px;
-      display: block;
-      margin: 10px auto;
-    }
-
-    .btn-print {
-      margin-top: 10px;
-      text-align: center;
-    }
-
-    .btn-print button {
-      background: black;
+    .btn-group button {
+      padding: 8px 16px;
+      background-color: #1a237e;
       color: white;
-      padding: 6px 14px;
       border: none;
-      font-size: 0.9em;
+      border-radius: 4px;
       cursor: pointer;
-    }
-
-    .footer {
-      text-align: center;
-      font-size: 0.75em;
-      color: #555;
-      margin-top: 10px;
+      margin: 5px;
     }
 
     @media print {
-      .btn-print {
-        display: none;
-      }
       body {
-        background: none;
-        padding: 0;
+        background: white;
+        color: black;
+      }
+      .btn-group {
+        display: none;
       }
     }
   </style>
 </head>
 <body>
+  <div class="receipt-container">
 
-<div class="receipt-container" id="receipt">
-
-  {% for copy in ['Customer Copy', 'Merchant Copy'] %}
-  <div class="receipt">
-    <div class="copy-label">{{ copy }}</div>
-
-    <div class="center">
-      <img src="{{ url_for('static', filename='/logo.jpg') }}" class="logo" alt="Logo">
+    <!-- MERCHANT COPY -->
+    <div class="receipt">
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="receipt-logo">
       <h2>RUTLAND POS</h2>
-      <p>Terminal ID: TML001-8583-BN3DR</p>
-      <p>Merchant:RUTLAND SYSTEMS</p>
-      <p>Address: ST Paul's Avenue Berkshire Slough,UK.</p>
-    </div>
-
-    <div class="divider"></div>
-
-    <div class="field"><span>Date/Time:</span><span>{{ timestamp }}</span></div>
-    <div class="field"><span>Txn ID:</span><span>{{ txn_id }}</span></div>
-    <div class="field"><span>Card:</span><span>**** **** **** {{ pan }}</span></div>
-    <div class="field"><span>Amount:</span><span>USD {{ amount }}</span></div>
-    <div class="field"><span>Auth Code (F-39):</span><span>{{ field39 }}</span></div>
-    <div class="field"><span>ARN:</span><span>{{ arn }}</span></div>
-    <div class="field"><span><strong>Payout Method:</strong> {{ payout }}</span></div>
-    <div class="field"><span><strong>Wallet Address:</strong> {{ wallet[:6] }}****{{ wallet[-4:] }}</span></div>
-
-    <div class="divider"></div>
-
-    <div class="center">
-      {% if field39 == '00' %}
-        <p><strong>TRANSACTION APPROVED ✅</strong></p>
-      {% else %}
-        <p><strong>TRANSACTION DECLINED ❌</strong></p>
+      <div class="copy-label">Merchant Copy</div>
+      <p><strong>Date:</strong> {{ timestamp }}</p>
+      <p><strong>Txn ID:</strong> {{ txn_id }}</p>
+      <p><strong>ARN:</strong> {{ arn }}</p>
+      <p><strong>Terminal:</strong> {{ session.get('protocol') }}</p>
+      <p><strong>Card:</strong> **** **** **** {{ pan }}</p>
+      <p><strong>Amount:</strong> USD {{ amount }}</p>
+      <p><strong>Payout Method:</strong> {{ payout }}</p>
+      {% if wallet %}
+        <p><strong>Wallet:</strong> {{ wallet[:5] }}****{{ wallet[-4:] }}</p>
       {% endif %}
+      <p><strong>Field 39:</strong> {{ field39 }} — Approved</p>
+
+      <div class="signature-line">Signature</div>
+      <div class="footer-note">
+        I acknowledge satisfactory receipt of goods and/or services.<br>
+        <strong>NO REFUND.</strong><br>
+        *Trusted Transaction*
+      </div>
     </div>
 
-    <div class="center">
-      <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ 
-        'TXN#'+txn_id|string + '|CARD=****' + pan + '|AMT=USD' + amount + 
-        '|CODE=' + field39 + '|ARN=' + arn + '|TS=' + timestamp + 
-        '|SIG=0xF2E3B92A4|PROTO=ISO8583-v1.2.3|BCHKSUM=0xD0EADC11'
-       | urlencode }}" 
-       class="qr" alt="QR Code">
-    </div>
+    <!-- CUSTOMER COPY -->
+    <div class="receipt">
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="receipt-logo">
+      <h2>RUTLAND POS</h2>
+      <div class="copy-label">Customer Copy</div>
+      <p><strong>Date:</strong> {{ timestamp }}</p>
+      <p><strong>Txn ID:</strong> {{ txn_id }}</p>
+      <p><strong>ARN:</strong> {{ arn }}</p>
+      <p><strong>Terminal:</strong> {{ session.get('protocol') }}</p>
+      <p><strong>Card:</strong> **** **** **** {{ pan }}</p>
+      <p><strong>Amount:</strong> USD {{ amount }}</p>
+      <p><strong>Payout Method:</strong> {{ payout }}</p>
+      {% if wallet %}
+        <p><strong>Wallet:</strong> {{ wallet[:5] }}****{{ wallet[-4:] }}</p>
+      {% endif %}
+      <p><strong>Field 39:</strong> {{ field39 }} — Approved</p>
 
-    <div class="footer">
-      Powered by FDS — Keep this copy for your records
+      <div class="signature-line">Signature</div>
+      <div class="footer-note">
+        I acknowledge satisfactory receipt of goods and/or services.<br>
+        <strong>NO REFUND.</strong><br>
+        *Trusted Transaction*
+      </div>
     </div>
   </div>
-  {% endfor %}
 
-  <div class="btn-print">
-    <button onclick="window.print()">🖨️ Print Both Copies</button>
+  <!-- Buttons (hidden when printing) -->
+  <div class="btn-group">
+    <button onclick="window.print()">🖨️ Print Receipt</button>
+    <a href="{{ url_for('home') }}">
+      <button>New Transaction</button>
+    </a>
   </div>
-
-</div>
-
 </body>
 </html>
 
