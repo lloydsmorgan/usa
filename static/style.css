@@ -3,6 +3,17 @@
    ================================ */
 
 /* Base Layout */
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
 body {
     font-family: 'Courier New', Courier, monospace;
     background-color: #111;
@@ -259,21 +270,22 @@ button[type="submit"]:hover {
         padding: 0;
         margin: 0;
         font-size: 15px;
-        width: 100vw;
+        width: 100%;
         overflow-x: hidden;
     }
 
     .container,
     .success-container,
     .receipt {
-        width: 95vw;
-        padding: 1rem;
-        margin: auto;
+        width: 95vw !important;
+        padding: 1rem !important;
+        margin: 0, auto !important;
     }
 
     input, button {
         font-size: 1rem;
         padding: 0.6rem;
+	max-width: 100%
     }
 
     h1 {
