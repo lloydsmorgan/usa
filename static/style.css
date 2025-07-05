@@ -280,6 +280,7 @@ button[type="submit"]:hover {
         width: 95vw !important;
         padding: 1rem !important;
         margin: 0, auto !important;
+	box-sizing: border-box;
     }
 
     input, button {
