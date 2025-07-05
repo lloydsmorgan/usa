@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<form id="authForm" method="POST" action="{{ url_for('auth') }}">
+<form id="authForm" method="POST" action="{{ url_for('auth') }}" class="form-wrap">
     <label>Enter Authorization Code:</label><br>
     <input type="text" name="auth" required><br>
     <button type="submit">Verify</button>

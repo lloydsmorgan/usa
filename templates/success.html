@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="success-container">
+<div class="success-container" class="form-wrap">
     <h2 style="color: #0f0;">✅ Transaction Approved</h2>
     <p><strong>Transaction ID:</strong> {{ txn_id }}</p>
     <p><strong>Card ending in:</strong> **** **** **** {{ pan }}</p>
@@ -9,10 +9,10 @@
 
     <div class="button-group">
         <a href="{{ url_for('receipt') }}">
-            <button>🧾 View Receipt</button>
+            <button>🧾 View Receipt </button>
         </a>
         <a href="{{ url_for('home') }}">
-            <button style="margin-left: 10px;">🔁 New Transaction</button>
+            <button style="margin-left: 10px;">New Transaction</button>
         </a>
     </div>
 </div>

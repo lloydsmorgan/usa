@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h3>Select Transaction Protocol</h3>
-<form method="POST" action="{{ url_for('protocol') }}">
+<form method="POST" action="{{ url_for('protocol') }}" class="form-wrap">
     <label for="protocol">Choose a protocol:</label><br>
     <select name="protocol" required>
         {% for p in protocols %}

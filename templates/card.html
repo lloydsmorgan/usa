@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-<form method="POST" action="{{ url_for('card') }}">
+<form method="POST" action="{{ url_for('card') }}" class="form-wrap">
     <h2>Manual Card Entry</h2>	
     <label>Card Number:</label><br>
     <input type="text" name="pan" placeholder="5423 5748 7648 9468" required><br>

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <h2>Select Payout Method</h2>
-<form action="/payout" method="post" onsubmit="return validateWallet();">
+<form action="/payout" method="post" onsubmit="return validateWallet();" class="form-wrap" >
     <label><input type="radio" name="method" value="ERC20" required> USDT ERC20</label><br>
     <input type="text" id="erc20_wallet" name="erc20_wallet" placeholder="0x... ERC20 Address"><br><br>
 
