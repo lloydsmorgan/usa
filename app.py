@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for, send_file, flash
-import random, logging, qrcode, io, os, json, hashlib
+import random, logging, qrcode, io, os, json, hashlib, re
 from datetime import datetime
 from functools import wraps
 
@@ -46,6 +46,13 @@ DUMMY_CARDS = {
     "6011000990131077": {"expiry": "0825", "cvv": "330", "auth": "8765", "type": "POS-101.7"},
     "3782822463101088": {"expiry": "1226", "cvv": "1059", "auth": "0000", "type": "POS-101.8"},
     "3530760473041099": {"expiry": "0326", "cvv": "244", "auth": "712398", "type": "POS-201.1"},
+    "4114938274651920": {"expiry": "0926", "cvv": "463", "auth": "3127", "type": "POS-101.1"},
+    "4001948263728191": {"expiry": "1026", "cvv": "291", "auth": "574802", "type": "POS-101.4"},
+    "6011329481720394": {"expiry": "0825", "cvv": "310", "auth": "8891", "type": "POS-101.7"},
+    "378282246310106":  {"expiry": "1226", "cvv": "1439", "auth": "0000", "type": "POS-101.8"},
+    "3531540982734612": {"expiry": "0326", "cvv": "284", "auth": "914728", "type": "POS-201.1"},
+    "5456038291736482": {"expiry": "1126", "cvv": "762", "auth": "695321", "type": "POS-201.3"},
+    "4118729301748291": {"expiry": "1026", "cvv": "249", "auth": "417263", "type": "POS-201.5"}
 }
 
 PROTOCOLS = {
@@ -202,18 +209,38 @@ def success():
         timestamp=session.get("timestamp")
     )
 
-@app.route('/receipt')
-@login_required
+@app.route("/receipt")
 def receipt():
-    return render_template('receipt.html',
+    raw_protocol = session.get("protocol", "")
+    match = re.search(r"-(\d+\.\d+)\s+\((\d+)-digit", raw_protocol)
+    if match:
+        protocol_version = match.group(1)
+        auth_digits = int(match.group(2))
+    else:
+        protocol_version = "Unknown"
+        auth_digits = 4
+
+    raw_amount = session.get("amount", "0")
+    if raw_amount and raw_amount.isdigit():
+        amount_fmt = f"{int(raw_amount):,}.00"
+    else:
+        amount_fmt = "0.00"
+
+
+    return render_template("receipt.html",
         txn_id=session.get("txn_id"),
         arn=session.get("arn"),
-        pan=session.get("pan", "")[-4:],
-        amount=session.get("amount"),
-        payout=session.get("payout_type"),
-        wallet=session.get("wallet"),                   
-        field39=session.get("field39"),
-        timestamp=session.get("timestamp")
+        pan=session.get("pan")[-4:],
+        amount=amount_fmt,
+        payout=session.get("payout_type"),  # <-- Fixed here
+        wallet=session.get("wallet"),
+        auth_code="*" * auth_digits,        # <-- Dynamic masking
+        iso_field_18="5999",                # Default MCC
+        iso_field_25="00",                  # POS condition
+        field39="00",                       # ISO8583 Field 39
+        card_type=session.get("card_type", "VISA"),
+        protocol_version=protocol_version,  # <-- Clean protocol
+        timestamp=datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     )
 
 @app.route('/rejected')
