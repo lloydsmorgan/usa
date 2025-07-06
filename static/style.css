@@ -123,6 +123,10 @@ button:hover, .btn:hover {
     margin-left: auto;
     margin-right: auto;
     box-shadow: 0 0 10px #0f0;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    word-break: break-word;
 }
 
 /* Button Group */
@@ -281,6 +285,12 @@ button[type="submit"]:hover {
         padding: 1rem !important;
         margin: 0 auto !important;
 	box-sizing: border-box;
+    }
+    
+    .success-container {
+        overflow-x: hidden;
+        word-break: break-word;
+        box-shadow: none !important;
     }
 
     input, button {
