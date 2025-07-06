@@ -297,17 +297,5 @@ button[type="submit"]:hover {
         font-size: 0.85rem;
     }
 
-    .button-group {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px; 
-    }
-
-    .button-group button {
-        width: 90%;
-    }
-
-
 }
 
