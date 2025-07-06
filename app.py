@@ -153,112 +153,112 @@ def payout():
         return redirect(url_for('card'))  # ✅ Final return
 
     return render_template('payout.html')  # ✅ GET handler
-#
-#@app.route('/card', methods=['GET', 'POST'])
-#@login_required
-#def card():
-    #if request.method == 'POST':
-        #pan = request.form['pan'].replace(" ", "")
-        #exp = request.form['expiry'].replace("/", "")
-        #cvv = request.form['cvv']
-        #session.update({'pan': pan, 'exp': exp, 'cvv': cvv})
-        #card = DUMMY_CARDS.get(pan)
-        #if card:
-            #if exp != card['expiry']:
-                #return redirect(url_for('rejected', code="54", reason=FIELD_39_RESPONSES["54"]))
-            #if cvv != card['cvv']:
-                #return redirect(url_for('rejected', code="82", reason=FIELD_39_RESPONSES["82"]))
-        #return redirect(url_for('auth'))
-    #return render_template('card.html')
-#
-#@app.route('/auth', methods=['GET', 'POST'])
-#@login_required
-#def auth():
-    #pan = session.get('pan')
-    #card = DUMMY_CARDS.get(pan)
-    #expected_length = session.get('code_length', 6)
-    #if request.method == 'POST':
-        #code = request.form.get('auth')
-        #if not card:
-            #return redirect(url_for('rejected', code="14", reason=FIELD_39_RESPONSES["14"]))
-        #if len(code) != expected_length:
-            #return render_template('auth.html', warning=f"Code must be {expected_length} digits.")
-        #if code == card['auth']:
-            #txn_id = f"TXN{random.randint(100000, 999999)}"
-            #arn = f"ARN{random.randint(100000000000, 999999999999)}"
-            #timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            #field39 = "00"
-            #session.update({
-                #"txn_id": txn_id,
-                #"arn": arn,
-                #"timestamp": timestamp,
-                #"field39": field39
-            #})
-            #return redirect(url_for('success'))
-        #return redirect(url_for('rejected', code="05", reason=FIELD_39_RESPONSES["05"]))
-    #return render_template('auth.html')
-#
 
 @app.route('/card', methods=['GET', 'POST'])
 @login_required
 def card():
-
-    # =============================
-    # TEMPORARY CARD ACCEPTANCE LOGIC
-    # =============================
     if request.method == 'POST':
         pan = request.form['pan'].replace(" ", "")
         exp = request.form['expiry'].replace("/", "")
         cvv = request.form['cvv']
         session.update({'pan': pan, 'exp': exp, 'cvv': cvv})
-
-        # Card type inference for receipt
-        if pan.startswith("4"):
-            session['card_type'] = "VISA"
-        elif pan.startswith("5"):
-            session['card_type'] = "MASTERCARD"
-        elif pan.startswith("3"):
-            session['card_type'] = "AMEX"
-        elif pan.startswith("6"):
-            session['card_type'] = "DISCOVER"
-        else:
-            session['card_type'] = "UNKNOWN"
-
+        card = DUMMY_CARDS.get(pan)
+        if card:
+            if exp != card['expiry']:
+                return redirect(url_for('rejected', code="54", reason=FIELD_39_RESPONSES["54"]))
+            if cvv != card['cvv']:
+                return redirect(url_for('rejected', code="82", reason=FIELD_39_RESPONSES["82"]))
         return redirect(url_for('auth'))
-
     return render_template('card.html')
-
-
 
 @app.route('/auth', methods=['GET', 'POST'])
 @login_required
 def auth():
+    pan = session.get('pan')
+    card = DUMMY_CARDS.get(pan)
     expected_length = session.get('code_length', 6)
-
-    # =============================
-    # TEMPORARY UNIVERSAL SUCCESS LOGIC
-    # =============================
     if request.method == 'POST':
         code = request.form.get('auth')
+        if not card:
+            return redirect(url_for('rejected', code="14", reason=FIELD_39_RESPONSES["14"]))
         if len(code) != expected_length:
             return render_template('auth.html', warning=f"Code must be {expected_length} digits.")
-
-        txn_id = f"TXN{random.randint(100000, 999999)}"
-        arn = f"ARN{random.randint(100000000000, 999999999999)}"
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        field39 = "00"
-
-        session.update({
-            "txn_id": txn_id,
-            "arn": arn,
-            "timestamp": timestamp,
-            "field39": field39
-        })
-
-        return redirect(url_for('success'))
-
+        if code == card['auth']:
+            txn_id = f"TXN{random.randint(100000, 999999)}"
+            arn = f"ARN{random.randint(100000000000, 999999999999)}"
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            field39 = "00"
+            session.update({
+                "txn_id": txn_id,
+                "arn": arn,
+                "timestamp": timestamp,
+                "field39": field39
+            })
+            return redirect(url_for('success'))
+        return redirect(url_for('rejected', code="05", reason=FIELD_39_RESPONSES["05"]))
     return render_template('auth.html')
 
+#
+#@app.route('/card', methods=['GET', 'POST'])
+#@login_required
+#def card():
+#
+    ## =============================
+    ## TEMPORARY CARD ACCEPTANCE LOGIC
+    ## =============================
+    #if request.method == 'POST':
+        #pan = request.form['pan'].replace(" ", "")
+        #exp = request.form['expiry'].replace("/", "")
+        #cvv = request.form['cvv']
+        #session.update({'pan': pan, 'exp': exp, 'cvv': cvv})
+#
+        ## Card type inference for receipt
+        #if pan.startswith("4"):
+            #session['card_type'] = "VISA"
+        #elif pan.startswith("5"):
+            #session['card_type'] = "MASTERCARD"
+        #elif pan.startswith("3"):
+            #session['card_type'] = "AMEX"
+        #elif pan.startswith("6"):
+            #session['card_type'] = "DISCOVER"
+        #else:
+            #session['card_type'] = "UNKNOWN"
+#
+        #return redirect(url_for('auth'))
+#
+    #return render_template('card.html')
+#
+#
+#
+#@app.route('/auth', methods=['GET', 'POST'])
+#@login_required
+#def auth():
+    #expected_length = session.get('code_length', 6)
+#
+    ## =============================
+    ## TEMPORARY UNIVERSAL SUCCESS LOGIC
+    ## =============================
+    #if request.method == 'POST':
+        #code = request.form.get('auth')
+        #if len(code) != expected_length:
+            #return render_template('auth.html', warning=f"Code must be {expected_length} digits.")
+#
+        #txn_id = f"TXN{random.randint(100000, 999999)}"
+        #arn = f"ARN{random.randint(100000000000, 999999999999)}"
+        #timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        #field39 = "00"
+#
+        #session.update({
+            #"txn_id": txn_id,
+            #"arn": arn,
+            #"timestamp": timestamp,
+            #"field39": field39
+        #})
+#
+        #return redirect(url_for('success'))
+#
+    #return render_template('auth.html')
+#
 
 @app.route('/success')
 @login_required
