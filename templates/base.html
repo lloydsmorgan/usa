@@ -26,17 +26,6 @@
         {% block content %}{% endblock %}
     </div>
 
-    {% if session.logged_in %}
-    <div class="fixed-bottom-center">
-        <a href="{{ url_for('change_password') }}">
-            <button>Change Password</button>
-        </a>
-        <a href="{{ url_for('logout') }}">
-            <button style="margin-left: 10px; background-color: red;">Logout</button>
-        </a>
-    </div>
-    {% endif %}
-
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/static/service-worker.js')
