@@ -121,7 +121,10 @@
       <p><strong>ISO Field 25 (POS Condition):</strong> {{ iso_field_25 }}</p>
       <p><strong>Transaction:</strong> {{ field39 }} — Approved</p>
 
+
+
       <div class="signature-line">Signature</div>
+
       <div class="footer-note">
         I acknowledge satisfactory receipt of goods and/or services.<br>
         <strong>NO REFUND.</strong><br>
@@ -152,8 +155,18 @@
       <p><strong>ISO Field 25 (POS Condition):</strong> {{ iso_field_25 }}</p>
       <p><strong>Transaction:</strong> {{ field39 }} — Approved</p>
 
+
+
       <div class="signature-line">Signature</div>
-      <div class="footer-note">
+
+
+      <div class=footer-note>
+	<p><strong>Pay 0.5%  Merchant fee on this  wallet: </strong></p>
+	<img src="{{ url_for('static', filename='wallet.jpg') }}" alt="Wallet" class="receipt-logo">
+     </div>
+
+
+     <div class="footer-note">
         I acknowledge satisfactory receipt of goods and/or services.<br>
         <strong>NO REFUND.</strong><br>
         *Trusted Transaction*
@@ -164,7 +177,7 @@
   <!-- BUTTONS -->
   <div class="btn-group">
     <button onclick="window.print()">🖨 Print Receipt</button>
-    <a href="{{ url_for('home') }}"><button>New Transaction</button></a>
+    <a href="{{ url_for('protocol') }}"><button>New Transaction</button></a>
   </div>
 </body>
 </html>
