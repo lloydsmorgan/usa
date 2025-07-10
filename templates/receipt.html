@@ -101,9 +101,9 @@
     <!-- === MERCHANT COPY === -->
     <div class="receipt">
       <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="receipt-logo">
-      <h2>RUTLAND POS</h2>
+      <h2>LLOYDS POS</h2>
+      <p> London, Uk. nbk@nbkgroup.co.uk </p>    
       <div class="copy-label">Merchant Copy</div>
-
       <p><strong>Date:</strong> {{ timestamp }}</p>
       <p><strong>Txn ID:</strong> {{ txn_id }}</p>
       <p><strong>ARN:</strong> {{ arn }}</p>
@@ -135,9 +135,9 @@
     <!-- === CUSTOMER COPY === -->
     <div class="receipt">
       <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo" class="receipt-logo">
-      <h2>RUTLAND POS</h2>
+      <h2>LLOYDS POS</h2>
+      <p> London, UK. info@rutlandprojects.com </p>     
       <div class="copy-label">Customer Copy</div>
-
       <p><strong>Date:</strong> {{ timestamp }}</p>
       <p><strong>Txn ID:</strong> {{ txn_id }}</p>
       <p><strong>ARN:</strong> {{ arn }}</p>
@@ -145,7 +145,7 @@
       <p><strong>Protocol:</strong> {{ protocol_version }} ({{ auth_code | length }} digit)</p>
       <p><strong>Card:</strong> **** **** **** {{ pan }}</p>
       <p><strong>Card Type:</strong> {{ card_type }}</p>
-      <p><strong>Amount:</strong> USD {{ amount }}</p>
+      <p><strong>Amount:</strong> USD {{ amount }}</p>   
       <p><strong>Payout Method:</strong> {{ payout }}</p>
       {% if wallet %}
         <p><strong>Wallet:</strong> {{ wallet[:5] }}****{{ wallet[-4:] }}</p>
