@@ -8,7 +8,7 @@ app.secret_key = 'rutland_secret_key_8583'
 logging.basicConfig(level=logging.INFO)
 
 # Configuration
-USERNAME = "LLOYDS TERMINAL"
+USERNAME = "lloydsadmin"
 PASSWORD_FILE = "password.json"
 
 # Ensure password file exists
